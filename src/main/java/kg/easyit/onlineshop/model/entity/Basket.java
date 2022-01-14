@@ -7,6 +7,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -40,6 +41,6 @@ public class Basket extends AbstractPersistable<Long> {
     List<Order> orders;
 
     @Column(name = "total_sum", nullable = false)
-    Double totalSum;
+    BigDecimal totalSum;
 
 }

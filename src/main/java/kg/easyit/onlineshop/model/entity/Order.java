@@ -7,6 +7,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.Date;
 
 @Data
@@ -39,6 +40,6 @@ public class Order extends AbstractPersistable<Long> {
     Integer quantityOfProducts;
 
     @Column(name = "total", nullable = false)
-    Double total;
+    BigDecimal total;
 
 }
