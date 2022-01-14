@@ -17,9 +17,6 @@ public class UserDto {
     String username;
     String email;
     String phoneNumber;
-    BasketDto basket;
-
-    @JsonIgnore
+    BasketDto basketDto;
     String password;
-
 }
