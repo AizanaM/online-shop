@@ -1,5 +1,8 @@
 package kg.easyit.onlineshop.model.dto;
 
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -8,12 +11,15 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class userDto {
+public class UserDto {
     String firstName;
     String lastName;
     String username;
-    String password;
     String email;
     String phoneNumber;
+    BasketDto basket;
+
+    @JsonIgnore
+    String password;
 
 }
