@@ -4,9 +4,8 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.List;
 
 @Data
 @Entity
@@ -35,6 +34,8 @@ public class User extends AbstractPersistable<Long> {
     @Column(name = "phone_number", nullable = false)
     String phoneNumber;
 
-
+    @OneToMany
+    @JoinColumn (name = "basket_id", referencedColumnName = "id")
+    List<Basket> basket;
 
 }
