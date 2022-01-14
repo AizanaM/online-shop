@@ -3,6 +3,8 @@ package kg.easyit.onlineshop.model.dto;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.math.BigDecimal;
+
 @Data
 @Builder
 @NoArgsConstructor
@@ -14,6 +16,6 @@ public class OrderDto {
     BasketDto basket;
     ProductDto product;
     Integer quantityOfProducts;
-    Double total;
+    BigDecimal total;
 
 }

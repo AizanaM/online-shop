@@ -4,6 +4,7 @@ import kg.easyit.onlineshop.model.entity.Order;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Data
@@ -16,6 +17,6 @@ public class BasketDto {
     Long id;
     UserDto user;
     List<Order> orders;
-    Double totalSum;
+    BigDecimal totalSum;
 
 }
