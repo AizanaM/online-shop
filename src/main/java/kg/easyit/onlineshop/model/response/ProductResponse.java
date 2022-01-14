@@ -3,17 +3,17 @@ package kg.easyit.onlineshop.model.response;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
+
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class UserResponse {
-    String firstName;
-    String lastName;
-    String username;
-    String email;
-    String phoneNumber;
-    Long BasketId;
-    Long AccountIds;
+public class ProductResponse {
+    String productName;
+    BigDecimal price;
+    Long unitsInStock;
+    LocalDate dateUpdated;
 }
