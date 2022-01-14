@@ -1,4 +1,4 @@
 package kg.easyit.onlineshop.mapper;
 
-public interface UserMapper {
+public interface BasketMapper {
 }
