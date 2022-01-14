@@ -7,6 +7,7 @@ import org.springframework.data.jpa.domain.AbstractPersistable;
 import javax.persistence.*;
 import java.util.List;
 
+
 @Data
 @Entity
 @Builder
@@ -28,7 +29,7 @@ public class User extends AbstractPersistable<Long> {
     @Column(name = "password", nullable = false)
     String password;
 
-    @Column(name= "email", nullable = false)
+    @Column(name= "email", nullable = false, unique = true)
     String email;
 
     @Column(name = "phone_number", nullable = false)
@@ -37,5 +38,9 @@ public class User extends AbstractPersistable<Long> {
     @OneToMany
     @JoinColumn (name = "basket_id", referencedColumnName = "id")
     List<Basket> basket;
+
+    @OneToMany
+    @JoinColumn (name = "account_id", referencedColumnName = "id")
+    List<Account> accounts;
 
 }

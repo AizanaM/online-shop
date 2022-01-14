@@ -1,6 +1,5 @@
 package kg.easyit.onlineshop.model.dto;
 
-import kg.easyit.onlineshop.model.entity.User;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -17,5 +16,5 @@ public class ProductDto {
     BigDecimal price;
     Long unitsInStock;
     LocalDate dateUpdated;
-    User user;
+
 }
