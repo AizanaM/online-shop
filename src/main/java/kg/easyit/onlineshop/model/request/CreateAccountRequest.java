@@ -3,6 +3,8 @@ package kg.easyit.onlineshop.model.request;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.math.BigDecimal;
+
 
 @Data
 @Builder
@@ -11,6 +13,6 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class CreateAccountRequest {
     String accountName;
-    Long availableMoney;
+    BigDecimal availableMoney;
     Long userId;
 }
