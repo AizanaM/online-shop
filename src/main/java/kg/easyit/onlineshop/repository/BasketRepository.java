@@ -1,5 +1,6 @@
 package kg.easyit.onlineshop.repository;
 
+import com.sun.org.apache.xpath.internal.objects.XBoolean;
 import kg.easyit.onlineshop.model.entity.Basket;
 import kg.easyit.onlineshop.model.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -10,6 +11,7 @@ import java.util.Optional;
 @Repository
 public interface BasketRepository extends JpaRepository<Basket, Long> {
 
+    Boolean existsByUserIdAndAndIsActiveTrue(Long userId);
     Optional<Basket> findBasketByUserIdAndIsActiveTrue(Long userId);
 
 }

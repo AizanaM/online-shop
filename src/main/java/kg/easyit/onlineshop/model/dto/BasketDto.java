@@ -16,7 +16,7 @@ public class BasketDto {
 
     Long id;
     UserDto user;
-    List<Order> orders;
+    List<OrderDto> orders;
     BigDecimal totalSum;
 
 }
