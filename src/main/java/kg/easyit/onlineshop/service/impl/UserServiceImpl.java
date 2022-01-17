@@ -1,17 +1,28 @@
 package kg.easyit.onlineshop.service.impl;
 
+import kg.easyit.onlineshop.mapper.UserMapper;
+import kg.easyit.onlineshop.model.dto.AccountDto;
+import kg.easyit.onlineshop.model.dto.BasketDto;
 import kg.easyit.onlineshop.model.dto.UserDto;
+import kg.easyit.onlineshop.model.entity.Account;
+import kg.easyit.onlineshop.model.entity.Basket;
+import kg.easyit.onlineshop.model.entity.User;
 import kg.easyit.onlineshop.model.request.CreateUserRequest;
 import kg.easyit.onlineshop.repository.UserRepository;
+import kg.easyit.onlineshop.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+
 @Service
 @RequiredArgsConstructor
-public class UserServiceImpl {
+public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    // private final PasswordEncoder passwordEncoder;
 
+    @Override
     public UserDto create(CreateUserRequest request) {
         if (userRepository.existsByEmail(request.getEmail())) {
             throw new RuntimeException("Email: " + request.getEmail() + " already in use");
@@ -22,6 +33,63 @@ public class UserServiceImpl {
         if (userRepository.existsByUsername(request.getUsername())) {
             throw new RuntimeException("Username: " + request.getUsername() + " already in use");
         }
+        User user = User
+                .builder()
+                .firstName(request.getFirstName())
+                .lastName(request.getLastName())
+                .username(request.getUsername())
+                .email(request.getEmail())
+                .phoneNumber(request.getPhoneNumber())
+                .password(request.getPassword())
+                .build();
+                UserDto userDto = UserMapper.INSTANCE.toDto(user);
+
+                Account account = Account
+                        .builder()
+                        .accountName("Default name")
+                        .build();
+
+        userRepository.save(user);
+
+        return userDto;
+    }
+
+    @Override
+    public UserDto findById(Long id) {
+        return UserMapper.INSTANCE
+                .toDto(userRepository
+                .findByIdAndIsActiveTrue(id)
+                .orElseThrow(()-> new RuntimeException("User not found")));
+    }
+
+    @Override
+    public UserDto update(UserDto userDto) {
+
+        User userEntity = userRepository.findByIdAndIsActiveTrue(userDto.getId()).map(user -> {
+            user.setFirstName(userDto.getFirstName());
+            user.setLastName(userDto.getLastName());
+            user.setUsername(userDto.getUsername());
+            user.setEmail(userDto.getEmail());
+            user.setPhoneNumber(userDto.getPhoneNumber());
+            return userRepository.save(user);
+        }).orElseThrow(()-> new RuntimeException("Not found"));
+
+        return UserMapper.INSTANCE.toDto(userEntity);
+    }
+
+    @Override
+    public UserDto delete(Long id) {
+
+        User userEntity = userRepository.findByIdAndIsActiveTrue(id).map(user -> {
+            user.setIsActive(false);
+            return userRepository.save(user);
+        }).orElseThrow(()-> new RuntimeException("Not found"));
+
+        return UserMapper.INSTANCE.toDto(userEntity);
+    }
+
+    @Override
+    public UserDto findByBasket(Basket basket) {
         return null;
     }
 

@@ -1,6 +1,7 @@
 package kg.easyit.onlineshop.model.request;
 
 
+import kg.easyit.onlineshop.model.entity.Account;
 import kg.easyit.onlineshop.model.entity.Basket;
 import lombok.AccessLevel;
 import lombok.Data;
@@ -16,6 +17,7 @@ public class CreateUserRequest {
     String username;
     String email;
     String phoneNumber;
+    Account account;
     Basket basket;
     String password;
 }
