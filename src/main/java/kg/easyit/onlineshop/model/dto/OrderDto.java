@@ -1,5 +1,6 @@
 package kg.easyit.onlineshop.model.dto;
 
+import kg.easyit.onlineshop.model.enums.OrderStatus;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -17,5 +18,6 @@ public class OrderDto {
     ProductDto product;
     Integer quantityOfProducts;
     BigDecimal total;
+    OrderStatus orderStatus;
 
 }
