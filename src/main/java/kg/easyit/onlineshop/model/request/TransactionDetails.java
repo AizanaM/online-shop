@@ -12,9 +12,8 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class CreateTransactionRequest {
+public class TransactionDetails {
     String purpose;
     BigDecimal amount;
-    Long accountToId;
     Long accountFromId;
 }

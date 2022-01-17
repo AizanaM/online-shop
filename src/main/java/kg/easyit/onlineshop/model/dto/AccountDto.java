@@ -2,6 +2,8 @@ package kg.easyit.onlineshop.model.dto;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+
+import java.math.BigDecimal;
 import java.util.List;
 
 @Data
@@ -12,7 +14,7 @@ import java.util.List;
 public class AccountDto {
     Long id;
     String accountName;
-    Long availableMoney;
-    userDto userDto;
+    BigDecimal availableMoney;
+    UserDto userDto;
     List<TransactionDto> transactions;
 }

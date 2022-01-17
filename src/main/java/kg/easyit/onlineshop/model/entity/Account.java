@@ -5,6 +5,7 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.List;
 
 @Data
@@ -21,7 +22,7 @@ public class Account extends AbstractPersistable<Long> {
     String accountName;
 
     @Column(name = "available_money", nullable = false)
-    Long availableMoney;
+    BigDecimal availableMoney;
 
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
