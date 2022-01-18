@@ -47,6 +47,16 @@ public class UserServiceImpl implements UserService {
                 Account account = Account
                         .builder()
                         .accountName("Default name")
+                        .availableMoney(BigDecimal.ZERO)
+                        .isActive(true)
+                        .user(user)
+                        .build();
+
+
+                Basket basket = Basket
+                        .builder()
+                        .isActive(true)
+                        .user(user)
                         .build();
 
         userRepository.save(user);

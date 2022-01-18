@@ -31,4 +31,7 @@ public class Product extends AbstractPersistable<Long> {
     @Column(name = "date_updated", nullable = false)
     LocalDate dateUpdated;
 
+    @Column(name = "is_active", nullable = false)
+    Boolean isActive;
+
 }
