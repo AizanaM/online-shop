@@ -1,11 +1,11 @@
 package kg.easyit.onlineshop.controller;
 
-import kg.easyit.onlineshop.model.request.TransactionDetails;
 import kg.easyit.onlineshop.service.TransactionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -15,10 +15,29 @@ import org.springframework.web.bind.annotation.RestController;
 public class TransactionController {
     private final TransactionService transactionService;
 
-    @PostMapping("/create")
-    public ResponseEntity<?> create(TransactionDetails transactionDetails) {
+    @GetMapping("/find-transactions-to")
+    public ResponseEntity<?> findByAccountToId(Long id) {
         try {
-            return ResponseEntity.ok(transactionService.create(transactionDetails));
+            return ResponseEntity.ok(transactionService.findByAccountToId(id));
+        } catch (Exception ex) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
+        }
+    }
+
+    @GetMapping("/find-transactions-from")
+    public ResponseEntity<?> findByAccountFrom(Long id) {
+        try {
+            return ResponseEntity.ok(transactionService.findByAccountFromId(id));
+        } catch (Exception ex) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
+        }
+    }
+
+
+    @GetMapping("/find-all")
+    public ResponseEntity<?> findAllTransactions(@RequestBody Long accountId) {
+        try {
+            return ResponseEntity.ok().body(transactionService.findAllTransaction(accountId));
         } catch (Exception ex) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
         }

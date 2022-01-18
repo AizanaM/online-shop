@@ -12,9 +12,11 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class ProductDto {
+    Long id;
     String productName;
     BigDecimal price;
     Integer unitsInStock;
     LocalDate dateUpdated;
+    Boolean isActive;
 
 }

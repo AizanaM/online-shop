@@ -12,6 +12,9 @@ import kg.easyit.onlineshop.service.TransactionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @RequiredArgsConstructor
 public class TransactionServiceImpl implements TransactionService {
@@ -44,5 +47,26 @@ public class TransactionServiceImpl implements TransactionService {
         transactionRepository.save(transaction);
 
         return TransactionMapper.INSTANSE.toDto(transaction);
+    }
+
+    @Override
+    public List<TransactionDto> findByAccountFromId(Long accountId) {
+
+        return TransactionMapper.INSTANSE.toDtoList(transactionRepository.findByAccountFromId(accountId)
+                .orElseThrow(() -> new RuntimeException("not found")));
+    }
+
+    @Override
+    public List<TransactionDto> findByAccountToId(Long accountId) {
+
+        return TransactionMapper.INSTANSE.toDtoList(transactionRepository.findByAccountToId(accountId)
+                .orElseThrow(() -> new RuntimeException("not found")));
+    }
+
+    @Override
+    public List<TransactionDto> findAllTransaction(Long accountId) {
+        List<TransactionDto> transactions = findByAccountFromId(accountId);
+        transactions.addAll(findByAccountToId(accountId));
+        return transactions.stream().sorted().collect(Collectors.toList());
     }
 }

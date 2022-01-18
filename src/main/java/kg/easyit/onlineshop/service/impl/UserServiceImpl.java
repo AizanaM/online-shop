@@ -47,6 +47,16 @@ public class UserServiceImpl implements UserService {
                 Account account = Account
                         .builder()
                         .accountName("Default name")
+                        .availableMoney(BigDecimal.ZERO)
+                        .isActive(true)
+                        .user(user)
+                        .build();
+
+
+                Basket basket = Basket
+                        .builder()
+                        .isActive(true)
+                        .user(user)
                         .build();
 
         userRepository.save(user);
@@ -90,6 +100,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto findByBasket(Basket basket) {
+
         return null;
     }
 
