@@ -33,6 +33,7 @@ public class AccountServiceImpl implements AccountService {
     public AccountDto create(CreateAccountRequest createAccountRequest) {
         UserDto userDto = (userService
                 .findById(createAccountRequest.getUserId()));
+
         Account account = Account.builder()
                 .accountName(createAccountRequest.getAccountName())
                 .availableMoney(createAccountRequest.getAvailableMoney())

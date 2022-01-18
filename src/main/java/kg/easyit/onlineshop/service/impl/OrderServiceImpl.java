@@ -3,6 +3,7 @@ package kg.easyit.onlineshop.service.impl;
 import kg.easyit.onlineshop.exceptions.OrderNotFoundException;
 import kg.easyit.onlineshop.mapper.BasketMapper;
 import kg.easyit.onlineshop.mapper.OrderMapper;
+import kg.easyit.onlineshop.mapper.ProductMapper;
 import kg.easyit.onlineshop.model.dto.BasketDto;
 import kg.easyit.onlineshop.model.dto.OrderDto;
 import kg.easyit.onlineshop.model.dto.ProductDto;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -35,12 +37,12 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public OrderDto create(CreateOrderRequest request) {
 
-        BasketDto basketDto = basketService.find(request.getBasketId());
-        ProductDto productDto = productService.find(request.getProductId());
+        BasketDto basketDto = basketService.find(request.getBasketId()); // ?
+        ProductDto productDto = productService.findById(request.getProductId());
 
         if (request.getQuantityOfProducts() > productDto.getUnitsInStock()) {
             throw new RuntimeException("There are not enough " + productDto.getProductName() + "(s) in stock. " +
-                                        "Number of units available: " + productDto.getUnitsInStock());
+                    "Number of units available: " + productDto.getUnitsInStock());
         }
 
         Order order = Order
@@ -55,9 +57,9 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<OrderDto> createAll(List<CreateOrderRequest> request) {
+    public List<OrderDto> createAll(List<CreateOrderRequest> requests) {
         List<OrderDto> orderDtoList = new ArrayList<>();
-        for (CreateOrderRequest orderRequest : request) {
+        for (CreateOrderRequest orderRequest : requests) {
             orderDtoList.add(create(orderRequest));
         }
         return orderDtoList;
@@ -68,14 +70,14 @@ public class OrderServiceImpl implements OrderService {
         Order order = orderRepository
                 .findById(id)
                 .orElseThrow(() -> new OrderNotFoundException
-                                    ("Order with id=" + id + " is not found"));
+                        ("Order with id=" + id + " is not found"));
 
         return OrderMapper.INSTANCE.toDto(order);
     }
 
     @Override
-    public List<OrderDto> findByBasket(BasketDto basketDto) {
-        List<Order> orders = orderRepository.findByBasket(BasketMapper.INSTANCE.toEntity(basketDto));
+    public List<OrderDto> findByBasket(Long basketId) {
+        List<Order> orders = orderRepository.findOrdersByBasketId(basketId);
         return OrderMapper.INSTANCE.toDtoList(orders);
     }
 
@@ -85,16 +87,39 @@ public class OrderServiceImpl implements OrderService {
 //    }
 
     @Override
-    public OrderDto update(OrderDto orderDto) {
+    public OrderDto updateProductQuantity(OrderDto orderDto) {
         return orderRepository.findById(orderDto.getId()).map(order -> {
-//            order.setQuantityOfProducts(orderDto.getQuantityOfProducts());
-            order.setOrderStatus(orderDto.getOrderStatus());
+            order.setQuantityOfProducts(orderDto.getQuantityOfProducts());
             orderRepository.save(order);
 
             return OrderMapper.INSTANCE.toDto(order);
         }).orElseThrow(() -> new OrderNotFoundException
-                            ("Order with id=" + orderDto.getId() + " is not found"));
+                ("Order with id=" + orderDto.getId() + " is not found"));
     }
+
+    @Override
+    public OrderDto cancel(Long id) {
+        return OrderMapper.INSTANCE.toDto(orderRepository.findOrderByIdAndOrderStatusActiveAndOrderStatusCompleted(id)
+                .map(order -> {
+                    if (order.getOrderStatus().equals(OrderStatus.COMPLETED)) {
+                        throw new RuntimeException("The order is completed. You can return it.");
+                    }
+                    order.setOrderStatus(OrderStatus.CANCELED);
+                    return orderRepository.save(order);
+                }).orElseThrow(() -> new RuntimeException("The order is cancelled.")));
+    }
+
+    @Override
+    public List<OrderDto> cancelAll(List<Long> ids) {
+        for (Long id : ids) {
+            cancel(id);
+        }
+        return OrderMapper.INSTANCE.toDtoList(orderRepository.findAll()
+                .stream()
+                .filter(order -> ids.contains(order.getId()))
+                .collect(Collectors.toList()));
+    }
+
 //
 //    @Override
 //    public MessageResponse delete(Long id) {

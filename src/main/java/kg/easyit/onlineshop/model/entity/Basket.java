@@ -29,8 +29,8 @@ public class Basket extends AbstractPersistable<Long> {
     @Column(name = "date_updated", nullable = false, columnDefinition = "TIMESTAMP DEFAULT NOW()")
     Date dateUpdated;
 
-    @Column(name = "is_active", nullable = false)
-    Boolean isActive;
+//    @Column(name = "is_active", nullable = false)
+//    Boolean isActive;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false, referencedColumnName = "id")
