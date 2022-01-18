@@ -1,10 +1,7 @@
 package kg.easyit.onlineshop.service;
 
-import kg.easyit.onlineshop.model.dto.BasketDto;
 import kg.easyit.onlineshop.model.dto.OrderDto;
 import kg.easyit.onlineshop.model.request.CreateOrderRequest;
-import kg.easyit.onlineshop.model.request.GetOrdersByBasketIdRequest;
-import kg.easyit.onlineshop.model.response.MessageResponse;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,12 +17,16 @@ public interface OrderService {
 
     OrderDto find(Long id);
 
-    List<OrderDto> readOrdersByBasketId(GetOrdersByBasketIdRequest request);
+//    List<OrderDto> readOrdersByBasketId(GetOrdersByBasketIdRequest request);
 
-    List<OrderDto> findByBasket(BasketDto basketDto);
+    List<OrderDto> findByBasket(Long basketId);
 
-    OrderDto update(OrderDto orderDto);
+    OrderDto updateProductQuantity(OrderDto orderDto);
 
-    MessageResponse delete(Long id);
+    OrderDto cancel(Long id);
+
+    List<OrderDto> cancelAll(List<Long> ids);
+
+//    MessageResponse delete(Long id);
 
 }

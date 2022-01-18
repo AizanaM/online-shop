@@ -5,13 +5,9 @@ import kg.easyit.onlineshop.mapper.BasketMapper;
 import kg.easyit.onlineshop.mapper.OrderMapper;
 import kg.easyit.onlineshop.mapper.UserMapper;
 import kg.easyit.onlineshop.model.dto.BasketDto;
-import kg.easyit.onlineshop.model.dto.OrderDto;
 import kg.easyit.onlineshop.model.dto.UserDto;
 import kg.easyit.onlineshop.model.entity.Basket;
-import kg.easyit.onlineshop.model.entity.Order;
-import kg.easyit.onlineshop.model.enums.OrderStatus;
 import kg.easyit.onlineshop.model.request.CreateBasketRequest;
-import kg.easyit.onlineshop.model.response.MessageResponse;
 import kg.easyit.onlineshop.repository.BasketRepository;
 import kg.easyit.onlineshop.service.BasketService;
 import kg.easyit.onlineshop.service.OrderService;
@@ -19,10 +15,6 @@ import kg.easyit.onlineshop.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
-import java.math.MathContext;
-import java.math.RoundingMode;
-import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -36,7 +28,7 @@ public class BasketServiceImpl implements BasketService {
     @Override
     public BasketDto create(CreateBasketRequest request) {
 
-        UserDto userDto = userService.find(basketDto.getUserId);
+        UserDto userDto = userService.findById(request.getUserId());
 
         Basket basket = Basket
                 .builder()
@@ -58,25 +50,31 @@ public class BasketServiceImpl implements BasketService {
     }
 
     @Override
-    public MessageResponse clearBasket(BasketDto basketDto) {
-        List<Order> orders = OrderMapper.INSTANCE.toEntityList(orderService.findByBasket(basketDto));
-        for (Order order : orders) {
-            order.setOrderStatus(OrderStatus.CANCELED);
-            orderService.save(OrderMapper.INSTANCE.toDto(order));
-        }
-        return new MessageResponse("The basket has been cleared");
+    public List<BasketDto> findByUser(Long userId) {
+        List<Basket> baskets = basketRepository.findBasketsByUserId(userId);
+        return BasketMapper.INSTANCE.toDtoList(baskets);
     }
 
-    @Override
-    public BasketDto update(BasketDto basketDto) {
-//        Change list of orders ?
-        return null;
-    }
+//    @Override
+//    public MessageResponse clearBasket(BasketDto basketDto) {
+//        List<Order> orders = OrderMapper.INSTANCE.toEntityList(orderService.findByBasket(basketDto));
+//        for (Order order : orders) {
+//            order.setOrderStatus(OrderStatus.CANCELED);
+//            orderService.save(OrderMapper.INSTANCE.toDto(order));
+//        }
+//        return new MessageResponse("The basket has been cleared");
+//    }
 
-    @Override
-    public MessageResponse delete(Long id) {
-//        After basket's totalSum is paid, set isActive false (Boolean paid true ?)
-        return null;
-    }
+//    @Override
+//    public BasketDto update(BasketDto basketDto) {
+////        Change list of orders ?
+//        return null;
+//    }
+//
+//    @Override
+//    public MessageResponse delete(Long id) {
+////        After basket's totalSum is paid, set isActive false (Boolean paid true ?)
+//        return null;
+//    }
 
 }

@@ -30,12 +30,12 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public AccountDto create(CreateAccountRequest createAccountRequest) {
         UserDto userDto = accountRepository
-                .findByIdAndIsActiveTrue(createAccountRequest.getUserId()).orElseThrow(() -> new RuntimeException("not found")))
+                .findByIdAndIsActiveTrue(createAccountRequest.getUserId()).orElseThrow(() -> new RuntimeException("not found")));
         ;
         Account account = Account.builder()
                 .accountName(createAccountRequest.getAccountName())
                 .availableMoney(createAccountRequest.getAvailableMoney())
-                .user(UserMapper.INSTANSE.toEntity(userDto))
+                .user(UserMapper.INSTANCE.toEntity(userDto))
                 .build();
 
         accountRepository.save(account);
