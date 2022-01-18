@@ -5,8 +5,8 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.math.BigDecimal;
 
 @Data
 @Entity
@@ -15,7 +15,18 @@ import javax.persistence.Table;
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Table(name = "tb_transaction")
-public class
+public class Transaction extends AbstractPersistable<Long> {
+    @Column(name = "purpose", nullable = false)
+    String purpose;
 
-Transaction extends AbstractPersistable<Long> {
+    @Column(name = "amount", nullable = false)
+    BigDecimal amount;
+
+    @ManyToOne
+    @JoinColumn(name = "account_to_id", referencedColumnName = "id")
+    Account accountToId;
+
+    @ManyToOne
+    @JoinColumn(name = "account_from_id", referencedColumnName = "id")
+    Account accountFromId;
 }
