@@ -1,8 +1,5 @@
 package kg.easyit.onlineshop.model.dto;
 
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -18,6 +15,8 @@ public class UserDto {
     String username;
     String email;
     String phoneNumber;
-    BasketDto basketDto;
+    AccountDto account;
+    BasketDto basket;
     String password;
+
 }

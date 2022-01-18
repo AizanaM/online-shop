@@ -25,10 +25,13 @@ public class Product extends AbstractPersistable<Long> {
     BigDecimal price;
 
     @Column(name = "units_in_stock", nullable = false)
-    Long unitsInStock;
+    Integer unitsInStock;
 
     @UpdateTimestamp
     @Column(name = "date_updated", nullable = false)
     LocalDate dateUpdated;
+
+    @Column(name = "is_active", nullable = false)
+    Boolean isActive;
 
 }

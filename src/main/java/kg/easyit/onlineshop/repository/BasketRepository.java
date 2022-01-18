@@ -1,15 +1,19 @@
 package kg.easyit.onlineshop.repository;
 
 import kg.easyit.onlineshop.model.entity.Basket;
-import kg.easyit.onlineshop.model.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
+import java.util.List;
 
 @Repository
 public interface BasketRepository extends JpaRepository<Basket, Long> {
 
-    Optional<Basket> findBasketByUserIdAndIsActiveTrue(Long userId);
+//    Boolean existsByUserIdAndAndIsActiveTrue(Long userId);
+//    Optional<Basket> findBasketByUserIdAndIsActiveTrue(Long userId);
+
+    @Query("SELECT b.* FROM tb_basket AS b WHERE order_id = ?1")
+    List<Basket> findBasketsByUserId(Long userId); // ?
 
 }

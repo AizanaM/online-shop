@@ -1,5 +1,4 @@
 package kg.easyit.onlineshop.controller;
-
 import kg.easyit.onlineshop.model.dto.UserDto;
 import kg.easyit.onlineshop.model.request.CreateUserRequest;
 import kg.easyit.onlineshop.service.UserService;

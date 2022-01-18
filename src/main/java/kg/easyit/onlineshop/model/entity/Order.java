@@ -1,5 +1,6 @@
 package kg.easyit.onlineshop.model.entity;
 
+import kg.easyit.onlineshop.model.enums.OrderStatus;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.CreationTimestamp;
@@ -41,5 +42,9 @@ public class Order extends AbstractPersistable<Long> {
 
     @Column(name = "total", nullable = false)
     BigDecimal total;
+
+    @Enumerated(value = EnumType.STRING)
+    @Column(name = "order_status", nullable = false)
+    OrderStatus orderStatus;
 
 }

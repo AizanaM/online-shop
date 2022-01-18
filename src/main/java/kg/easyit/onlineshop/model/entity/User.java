@@ -41,6 +41,9 @@ public class User extends AbstractPersistable<Long> implements UserDetails {
     @Column(name = "phone_number", nullable = false)
     String phoneNumber;
 
+    @Column(name = "is_active", nullable = false)
+    Boolean isActive;
+
     @OneToMany
     @JoinColumn (name = "basket_id", referencedColumnName = "id")
     List<Basket> basket;
@@ -48,7 +51,7 @@ public class User extends AbstractPersistable<Long> implements UserDetails {
     @OneToMany
     @JoinColumn (name = "account_id", referencedColumnName = "id")
     List<Account> accounts;
-
+  
     @Column(name = "is active", nullable = false, columnDefinition = "BOOLEAN DEFAULT TRUE")
     Boolean isActive;
 
