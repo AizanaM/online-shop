@@ -1,21 +1,21 @@
 package kg.easyit.onlineshop.controller;
 
 import kg.easyit.onlineshop.model.request.CreateAccountRequest;
+import kg.easyit.onlineshop.model.request.UpdateAccountRequest;
 import kg.easyit.onlineshop.service.AccountService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/api/v1/account")
 public class AccountController {
     private final AccountService accountService;
 
     @PostMapping("/create")
-    public ResponseEntity<?> create(@RequestBody CreateAccountRequest createAccountRequest){
+    public ResponseEntity<?> create(@RequestBody CreateAccountRequest createAccountRequest) {
         try {
             return ResponseEntity.status(HttpStatus.CREATED).body(accountService.create(createAccountRequest));
         } catch (RuntimeException ex) {
@@ -25,4 +25,33 @@ public class AccountController {
     }
 
 
+    @PutMapping("/update")
+    public ResponseEntity<?> update(@RequestBody UpdateAccountRequest updateAccountRequest) {
+        try {
+            return ResponseEntity.ok().body(accountService.update(updateAccountRequest));
+        } catch (RuntimeException ex) {
+            ex.printStackTrace();
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
+        }
+    }
+
+    @DeleteMapping("/delete")
+    public ResponseEntity<?> delete(@RequestBody Long id) {
+        try {
+            return ResponseEntity.ok().body(accountService.delete(id));
+        } catch (RuntimeException ex) {
+            ex.printStackTrace();
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
+        }
+    }
+
+    @GetMapping("/find")
+    public ResponseEntity<?> find(@RequestBody Long id) {
+        try {
+            return ResponseEntity.ok().body(accountService.findById(id));
+        } catch (RuntimeException ex) {
+            ex.printStackTrace();
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
+        }
+    }
 }

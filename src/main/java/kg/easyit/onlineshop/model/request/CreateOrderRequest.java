@@ -16,6 +16,10 @@ public class CreateOrderRequest {
 
     @NotNull
     @Positive
+    Long basketId; // ?
+
+    @NotNull
+    @Positive
     Long productId;
 
     @NotNull

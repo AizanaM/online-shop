@@ -14,7 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@Table(name = "account")
+@Table(name = "tb_account")
 public class Account extends AbstractPersistable<Long> {
 
 

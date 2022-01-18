@@ -2,8 +2,9 @@ package kg.easyit.onlineshop.service;
 
 import kg.easyit.onlineshop.model.dto.BasketDto;
 import kg.easyit.onlineshop.model.request.CreateBasketRequest;
-import kg.easyit.onlineshop.model.response.MessageResponse;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public interface BasketService {
@@ -12,10 +13,12 @@ public interface BasketService {
 
     BasketDto find(Long id);
 
-    MessageResponse clearBasket(BasketDto basketDto);
+    List<BasketDto> findByUser(Long userId);
 
-    BasketDto update(BasketDto basketDto);
-
-    MessageResponse delete(Long id);
+//    MessageResponse clearBasket(BasketDto basketDto);
+//
+//    BasketDto update(BasketDto basketDto);
+//
+//    MessageResponse delete(Long id);
 
 }

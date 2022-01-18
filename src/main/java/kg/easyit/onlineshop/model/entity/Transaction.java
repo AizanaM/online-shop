@@ -14,7 +14,7 @@ import javax.persistence.Table;
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@Table(name = "transaction")
+@Table(name = "tb_transaction")
 public class
 
 Transaction extends AbstractPersistable<Long> {
