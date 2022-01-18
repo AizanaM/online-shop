@@ -19,7 +19,6 @@ public class RoleController {
 
 
     @PreAuthorize("hasAuthority('PERMISSIONS_READ')")
-
     @GetMapping("/get-all-authorities")
     public ResponseEntity<?> getAllAuthorities() {
         try {
@@ -32,7 +31,7 @@ public class RoleController {
         }
     }
 
-    @PreAuthorize("hasAnyAuthority('AUTHORITY_READ')")
+    @PreAuthorize("hasAnyAuthority('ROLE_CREATE')")
     @PostMapping("/create")
     public ResponseEntity<?> create(@RequestBody RoleDto roleDto) {
         try {
@@ -41,6 +40,18 @@ public class RoleController {
         } catch (RuntimeException ex){
             log.error("Role creating failed. Role with name=" + roleDto.getRoleName() + " already exists.");
             ex.printStackTrace();
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
+        }
+    }
+
+    @PreAuthorize("hasAuthority('ROLE_READ')")
+    @GetMapping("/get")
+    public ResponseEntity<?> getRole(@PathVariable Long id){
+        try{
+            log.info("Get role");
+            return ResponseEntity.ok(roleService.findById(id));
+        }catch (RuntimeException ex){
+            log.info("Getting role is failed");
             return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
         }
     }

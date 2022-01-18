@@ -1,5 +1,6 @@
 package kg.easyit.onlineshop.service.impl;
 
+import kg.easyit.onlineshop.exceptions.UserNotFoundException;
 import kg.easyit.onlineshop.mapper.RoleMapper;
 import kg.easyit.onlineshop.model.dto.RoleDto;
 import kg.easyit.onlineshop.model.enums.Authority;
@@ -22,6 +23,15 @@ public class RoleServiceImpl implements RoleService {
     public List<Authority> getAuthorities() {
         return Stream.of(Authority.values()).collect(Collectors.toList());
     }
+
+    @Override
+    public RoleDto findById(Long id) {
+        return RoleMapper.INSTANCE.toDto(roleRepository
+                .findByIdAndIsActiveTrue(id)
+                .orElseThrow(() -> new UserNotFoundException("Role id not found")));
+    }
+
+
 
     @Override
     public RoleDto create(RoleDto roleDto) {

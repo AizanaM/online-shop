@@ -32,6 +32,7 @@ public enum Authority {
     TRANSACTION_UPDATE,
 
     PERMISSIONS_READ,
-    AUTHORITY_READ
+    ROLE_READ,
+    ROLE_CREATE
 
 }
