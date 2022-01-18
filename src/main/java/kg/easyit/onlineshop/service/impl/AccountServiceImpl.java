@@ -29,8 +29,8 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public AccountDto create(CreateAccountRequest createAccountRequest) {
-        UserDto userDto = accountRepository
-                .findByIdAndIsActiveTrue(createAccountRequest.getUserId()).orElseThrow(() -> new RuntimeException("not found")))
+        UserDto userDto = (userService
+                .findById(createAccountRequest.getUserId()));
         ;
         Account account = Account.builder()
                 .accountName(createAccountRequest.getAccountName())

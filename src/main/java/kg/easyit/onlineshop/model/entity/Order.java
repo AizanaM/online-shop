@@ -46,5 +46,4 @@ public class Order extends AbstractPersistable<Long> {
     @Enumerated(value = EnumType.STRING)
     @Column(name = "order_status", nullable = false)
     OrderStatus orderStatus;
-
 }
