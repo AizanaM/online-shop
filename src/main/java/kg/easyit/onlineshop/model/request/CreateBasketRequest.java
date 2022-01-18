@@ -8,22 +8,23 @@ import lombok.experimental.FieldDefaults;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import java.math.BigDecimal;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class CreateOrderRequest {
+public class CreateBasketRequest {
 
     @NotNull
     @Positive
-    Long productId;
+    Long userId;
 
     @NotNull
     @Positive
-    Integer quantityOfProducts;
+    List<CreateOrderRequest> orders;
 
     @NotNull
     @Positive
-    BigDecimal total;
+    BigDecimal totalSum;
 
 }
