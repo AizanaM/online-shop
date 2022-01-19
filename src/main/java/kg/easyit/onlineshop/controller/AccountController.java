@@ -6,6 +6,7 @@ import kg.easyit.onlineshop.service.AccountService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 public class AccountController {
     private final AccountService accountService;
 
+    @PreAuthorize("hasAuthority('ACCOUNT_CREATE')")
     @PostMapping("/create")
     public ResponseEntity<?> create(@RequestBody CreateAccountRequest createAccountRequest) {
         try {
@@ -24,7 +26,7 @@ public class AccountController {
         }
     }
 
-
+    @PreAuthorize("hasAuthority('ACCOUNT_UPDATE')")
     @PutMapping("/update")
     public ResponseEntity<?> update(@RequestBody UpdateAccountRequest updateAccountRequest) {
         try {
@@ -35,6 +37,7 @@ public class AccountController {
         }
     }
 
+    @PreAuthorize("hasAuthority('ACCOUNT_DELETE')")
     @DeleteMapping("/delete")
     public ResponseEntity<?> delete(@RequestBody Long id) {
         try {
@@ -45,6 +48,7 @@ public class AccountController {
         }
     }
 
+    @PreAuthorize("hasAuthority('ACCOUNT_READ')")
     @GetMapping("/find")
     public ResponseEntity<?> find(@RequestBody Long id) {
         try {

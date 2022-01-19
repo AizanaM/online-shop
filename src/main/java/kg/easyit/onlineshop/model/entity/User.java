@@ -41,8 +41,6 @@ public class User extends AbstractPersistable<Long> implements UserDetails {
     @Column(name = "phone_number", nullable = false)
     String phoneNumber;
 
-    @Column(name = "is_active", nullable = false)
-    Boolean isActive;
 
     @OneToMany
     @JoinColumn (name = "basket_id", referencedColumnName = "id")

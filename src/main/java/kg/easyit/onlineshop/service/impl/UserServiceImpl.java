@@ -59,7 +59,6 @@ public class UserServiceImpl implements UserService {
 
                 Basket basket = Basket
                         .builder()
-                        .isActive(true)
                         .user(user)
                         .build();
 
