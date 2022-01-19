@@ -24,7 +24,7 @@ public class UserController {
             log.info("Creating user");
             return ResponseEntity.status(HttpStatus.CREATED).body(userService.create(createUserRequest));
         }catch (RuntimeException ex){
-            log.info("User creation is failed");
+            log.error("User creation is failed");
             ex.printStackTrace();
             return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
         }
@@ -38,7 +38,7 @@ public class UserController {
             log.info("Reading user by id");
             return ResponseEntity.ok(userService.findById(id));
         }catch (RuntimeException ex){
-            log.info("Reading is failed");
+            log.error("Reading is failed");
             ex.printStackTrace();
             return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
         }
@@ -52,7 +52,7 @@ public class UserController {
             log.info("Updating user");
             return ResponseEntity.ok(userService.update(userDto));
         }catch (RuntimeException ex){
-            log.info("User updating is failed");
+            log.error("User updating is failed");
             ex.printStackTrace();
             return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
         }
@@ -66,7 +66,7 @@ public class UserController {
             log.info("Delete user");
             return ResponseEntity.ok(userService.delete(id));
         }catch (RuntimeException ex){
-            log.info("User deleting is failed");
+            log.error("User deleting is failed");
             ex.printStackTrace();
             return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
         }
