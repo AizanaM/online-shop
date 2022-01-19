@@ -1,10 +1,10 @@
 package kg.easyit.onlineshop.model.dto;
 
-import kg.easyit.onlineshop.model.entity.Order;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 @Data
@@ -15,6 +15,8 @@ import java.util.List;
 public class BasketDto {
 
     Long id;
+    Date dateCreated;
+    Date dateUpdated;
     UserDto user;
     List<OrderDto> orders;
     BigDecimal totalSum;
