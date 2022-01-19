@@ -5,6 +5,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 @Data
 @Builder
@@ -14,6 +15,8 @@ import java.math.BigDecimal;
 public class OrderDto {
 
     Long id;
+    Date dateCreated;
+    Date dateUpdated;
     BasketDto basket;
     ProductDto product;
     Integer quantityOfProducts;

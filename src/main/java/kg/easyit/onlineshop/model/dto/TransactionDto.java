@@ -13,6 +13,6 @@ public class TransactionDto {
     Long id;
     String purpose;
     BigDecimal amount;
-    Long accountToID;
-    Long accountFromId;
+    AccountDto accountToID;
+    AccountDto accountFromId;
 }

@@ -1,7 +1,12 @@
 package kg.easyit.onlineshop.model.dto;
 
+import kg.easyit.onlineshop.model.entity.Account;
+import kg.easyit.onlineshop.model.entity.Basket;
+import kg.easyit.onlineshop.model.entity.Role;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+
+import java.util.List;
 
 @Data
 @Builder
@@ -15,8 +20,10 @@ public class UserDto {
     String username;
     String email;
     String phoneNumber;
-    AccountDto account;
-    BasketDto basket;
+    List<AccountDto> account;
+    List<BasketDto> baskets;
     String password;
+    Boolean isActive;
+    RoleDto roleDto;
 
 }
