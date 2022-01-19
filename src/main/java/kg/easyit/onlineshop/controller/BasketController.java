@@ -38,6 +38,7 @@ public class BasketController {
             return ResponseEntity.ok(basketService.find(id));
         } catch (RuntimeException ex) {
             log.error("Basket reading failed. Basket with id=" + id + " is not found.");
+            ex.printStackTrace();
             return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
         }
     }
@@ -50,6 +51,7 @@ public class BasketController {
             return ResponseEntity.ok(basketService.find(userId));
         } catch (RuntimeException ex) {
             log.error("Reading baskets failed. Baskets with user id" + userId + " are not found.");
+            ex.printStackTrace();
             return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
         }
     }
