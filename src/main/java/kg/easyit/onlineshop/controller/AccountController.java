@@ -38,8 +38,8 @@ public class AccountController {
     }
 
     @PreAuthorize("hasAuthority('ACCOUNT_DELETE')")
-    @DeleteMapping("/delete")
-    public ResponseEntity<?> delete(@RequestBody Long id) {
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<?> delete(@PathVariable Long id) {
         try {
             return ResponseEntity.ok().body(accountService.delete(id));
         } catch (RuntimeException ex) {
@@ -49,8 +49,8 @@ public class AccountController {
     }
 
     @PreAuthorize("hasAuthority('ACCOUNT_READ')")
-    @GetMapping("/find")
-    public ResponseEntity<?> find(@RequestBody Long id) {
+    @GetMapping("/find/{id}")
+    public ResponseEntity<?> find(@PathVariable Long id) {
         try {
             return ResponseEntity.ok().body(accountService.findById(id));
         } catch (RuntimeException ex) {

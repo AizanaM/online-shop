@@ -60,7 +60,7 @@ public class UserController {
 
 
     @PreAuthorize("hasAuthority('USER_DELETE')")
-    @DeleteMapping("/delete")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id ){
         try{
             log.info("Delete user");

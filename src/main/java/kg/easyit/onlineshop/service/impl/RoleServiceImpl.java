@@ -27,7 +27,7 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public RoleDto findById(Long id) {
         return RoleMapper.INSTANCE.toDto(roleRepository
-                .findByIdAndIsActiveTrue(id)
+                .findById(id)
                 .orElseThrow(() -> new UserNotFoundException("Role id not found")));
     }
 

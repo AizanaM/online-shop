@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-@Table(name ="tb_user")
+@Table(name = "tb_user")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class User extends AbstractPersistable<Long> implements UserDetails {
 
@@ -41,16 +41,13 @@ public class User extends AbstractPersistable<Long> implements UserDetails {
     @Column(name = "phone_number", nullable = false)
     String phoneNumber;
 
-
-    @OneToMany
-    @JoinColumn (name = "basket_id", referencedColumnName = "id")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     List<Basket> basket;
 
-    @OneToMany
-    @JoinColumn (name = "account_id", referencedColumnName = "id")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     List<Account> accounts;
-  
-    @Column(name = "is active", nullable = false, columnDefinition = "BOOLEAN DEFAULT TRUE")
+
+    @Column(name = "is_active", nullable = false)
     Boolean isActive;
 
     @ManyToOne

@@ -16,8 +16,7 @@ import java.util.Date;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "Order")
-@EqualsAndHashCode(callSuper = true)
+@Table(name = "tb_order")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Order extends AbstractPersistable<Long> {
 
@@ -30,11 +29,11 @@ public class Order extends AbstractPersistable<Long> {
     Date dateUpdated;
 
     @ManyToOne
-    @JoinColumn(name = "basket_id", nullable = false, referencedColumnName = "id")
+    @JoinColumn(name = "basket_id", referencedColumnName = "id")
     Basket basket;
 
     @ManyToOne
-    @JoinColumn(name = "product_id", nullable = false, referencedColumnName = "id")
+    @JoinColumn(name = "product_id", referencedColumnName = "id")
     Product product;
 
     @Column(name = "quantity_of_products", nullable = false)

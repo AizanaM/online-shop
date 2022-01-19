@@ -24,11 +24,10 @@ public class Account extends AbstractPersistable<Long> {
     BigDecimal availableMoney;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
     User user;
 
-    @OneToMany
-    @JoinColumn(name = "transaction_id", referencedColumnName = "id")
+    @OneToMany(fetch = FetchType.EAGER)
     List<Transaction> transactions;
 
     @Column(name = "is_Active", nullable = false, columnDefinition = "Boolean default true")

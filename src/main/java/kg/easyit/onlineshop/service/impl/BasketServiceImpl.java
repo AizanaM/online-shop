@@ -13,17 +13,25 @@ import kg.easyit.onlineshop.service.BasketService;
 import kg.easyit.onlineshop.service.OrderService;
 import kg.easyit.onlineshop.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor
 public class BasketServiceImpl implements BasketService {
 
     private final BasketRepository basketRepository;
     private final UserService userService;
     private final OrderService orderService;
+
+    @Autowired
+    public BasketServiceImpl(BasketRepository basketRepository, UserService userService,@Lazy OrderService orderService) {
+        this.basketRepository = basketRepository;
+        this.userService = userService;
+        this.orderService = orderService;
+    }
 
     @Override
     public BasketDto create(CreateBasketRequest request) {

@@ -16,8 +16,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "Basket")
-@EqualsAndHashCode(callSuper = true)
+@Table(name = "tb_basket")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Basket extends AbstractPersistable<Long> {
 
@@ -36,8 +35,7 @@ public class Basket extends AbstractPersistable<Long> {
     @JoinColumn(name = "user_id", nullable = false, referencedColumnName = "id")
     User user;
 
-    @OneToMany
-    @JoinColumn(name = "order_id", nullable = false, referencedColumnName = "id")
+    @OneToMany(mappedBy = "basket")
     List<Order> orders;
 
     @Column(name = "total_sum", nullable = false)

@@ -4,56 +4,45 @@ import kg.easyit.onlineshop.exceptions.ProductNotFoundException;
 import kg.easyit.onlineshop.model.dto.ProductDto;
 import kg.easyit.onlineshop.model.request.CreateProductRequest;
 import kg.easyit.onlineshop.service.ProductService;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-@Slf4j
 @RestController
 @RequestMapping("/api/v1/product")
 public class ProductController {
 
+    @Autowired
     private ProductService productService;
 
-    @PreAuthorize("hasAuthority('PRODUCT_CREATE')")
     @PostMapping("/create")
     public ResponseEntity<?> create(@RequestBody CreateProductRequest request) {
         try {
-            log.info("Creating product");
             return ResponseEntity.status(HttpStatus.CREATED)
                     .body(productService.create(request));
         } catch (ProductNotFoundException ex) {
-            log.info("Creating product is failed");
             ex.printStackTrace();
             return ResponseEntity.status(HttpStatus.CONFLICT)
                     .body(ex.getMessage());
         }
     }
 
-    @PreAuthorize("hasAuthority('PRODUCT_READ')")
     @GetMapping("/find/{id}")
     public ResponseEntity<?> findById(@PathVariable Long id) {
         try {
-            log.info("Reading product by id");
             return ResponseEntity.ok(productService.findById(id));
         } catch (ProductNotFoundException ex) {
-            log.info("Reading is failed");
             return ResponseEntity.status(HttpStatus.CONFLICT)
                     .body(ex.getMessage());
         }
     }
 
-    @PreAuthorize("hasAuthority('PRODUCT_UPDATE')")
     @PutMapping("/update")
     public ResponseEntity<?> update(@RequestBody ProductDto productDto) {
         try {
-            log.info("Updating product");
             return ResponseEntity.ok(productService.update(productDto));
         } catch (ProductNotFoundException ex) {
-            log.info("Product updating is failed");
             ex.printStackTrace();
             return ResponseEntity.status(HttpStatus.CONFLICT)
                     .body(ex.getMessage());

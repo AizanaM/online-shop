@@ -12,8 +12,10 @@ import kg.easyit.onlineshop.model.request.CreateUserRequest;
 import kg.easyit.onlineshop.repository.UserRepository;
 import kg.easyit.onlineshop.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -23,7 +25,7 @@ import java.math.BigDecimal;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
-    // private final PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public UserDto create(CreateUserRequest request) {
@@ -43,7 +45,7 @@ public class UserServiceImpl implements UserService {
                 .username(request.getUsername())
                 .email(request.getEmail())
                 .phoneNumber(request.getPhoneNumber())
-                .password(request.getPassword())
+                .password(passwordEncoder.encode(request.getPassword()))
                 .build();
 
         UserDto userDto = UserMapper.INSTANCE.toDto(user);

@@ -45,7 +45,7 @@ public class RoleController {
     }
 
     @PreAuthorize("hasAuthority('ROLE_READ')")
-    @GetMapping("/get")
+    @GetMapping("/get/{id}")
     public ResponseEntity<?> getRole(@PathVariable Long id){
         try{
             log.info("Get role");

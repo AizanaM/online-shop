@@ -1,5 +1,6 @@
 package kg.easyit.onlineshop.controller;
 
+import kg.easyit.onlineshop.model.request.TransactionDetails;
 import kg.easyit.onlineshop.service.TransactionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -15,6 +16,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/transaction")
 public class TransactionController {
     private final TransactionService transactionService;
+
+    @PreAuthorize("hasAuthority('TRANSACTION_CREATE')")
+    @GetMapping("/create")
+    public ResponseEntity<?> findByAccountToId(@RequestBody TransactionDetails details) {
+        try {
+            return ResponseEntity.ok(transactionService.create(details));
+        } catch (Exception ex) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
+        }
+    }
 
     @PreAuthorize("hasAuthority('TRANSACTION_READ')")
     @GetMapping("/find-transactions-to")

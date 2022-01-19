@@ -15,6 +15,7 @@ import kg.easyit.onlineshop.service.BasketService;
 import kg.easyit.onlineshop.service.OrderService;
 import kg.easyit.onlineshop.service.ProductService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -49,6 +50,7 @@ public class OrderServiceImpl implements OrderService {
                 .builder()
                 .basket(BasketMapper.INSTANCE.toEntity(basketDto))
                 .product(ProductMapper.INSTANCE.toEntity(productDto))
+                .orderStatus(OrderStatus.ACTIVE)
                 .quantityOfProducts(request.getQuantityOfProducts())
                 .total(request.getTotal()) // (productDto.getPrice().multiply(new BigDecimal(request.getQuantityOfProducts())).round(new MathContext(2, RoundingMode.HALF_UP)))
                 .build();
@@ -99,7 +101,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public OrderDto cancel(Long id) {
-        return OrderMapper.INSTANCE.toDto(orderRepository.findOrderByIdAndOrderStatusActiveAndOrderStatusCompleted(id)
+        return OrderMapper.INSTANCE.toDto(orderRepository.findOrderByIdAndOrderStatusActiveOrCompleted(id)
                 .map(order -> {
                     if (order.getOrderStatus().equals(OrderStatus.COMPLETED)) {
                         throw new RuntimeException("The order is completed. You can return it.");

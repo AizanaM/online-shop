@@ -13,7 +13,7 @@ public interface BasketRepository extends JpaRepository<Basket, Long> {
 //    Boolean existsByUserIdAndAndIsActiveTrue(Long userId);
 //    Optional<Basket> findBasketByUserIdAndIsActiveTrue(Long userId);
 
-    @Query("SELECT b.* FROM tb_basket AS b WHERE order_id = ?1")
+    @Query(value = "SELECT b.* FROM tb_basket AS b WHERE b.order_id = ?1", nativeQuery = true)
     List<Basket> findBasketsByUserId(Long userId); // ?
 
 }

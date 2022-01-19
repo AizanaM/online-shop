@@ -13,8 +13,7 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "tb-role")
-@EqualsAndHashCode(callSuper = true)
+@Table(name = "tb_role")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Role extends AbstractPersistable<Long> {
 
