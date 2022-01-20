@@ -19,4 +19,5 @@ public class CreateUserRequest {
     String phoneNumber;
     String password;
     Long roleId;
+    //Special for Nurbek
 }
