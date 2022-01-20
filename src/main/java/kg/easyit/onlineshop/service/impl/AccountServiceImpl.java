@@ -12,18 +12,25 @@ import kg.easyit.onlineshop.repository.AccountRepository;
 import kg.easyit.onlineshop.service.AccountService;
 import kg.easyit.onlineshop.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.core.task.TaskRejectedException;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 
 @Service
-@RequiredArgsConstructor
 public class AccountServiceImpl implements AccountService {
 
     private final AccountRepository accountRepository;
     private final UserService userService;
+
+    @Autowired
+    public AccountServiceImpl(AccountRepository accountRepository,@Lazy UserService userService) {
+        this.accountRepository = accountRepository;
+        this.userService = userService;
+    }
 
     @Value("${account.details}")
     private Long shopAccountId;
@@ -72,8 +79,8 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public void save(AccountDto accountDto) {
-        accountRepository.save(AccountMapper.INSTANSE.toEntity(accountDto));
+    public void save(Account account) {
+        accountRepository.save(account);
     }
 
     @Override

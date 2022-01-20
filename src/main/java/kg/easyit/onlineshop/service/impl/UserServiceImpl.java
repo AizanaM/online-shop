@@ -1,15 +1,21 @@
 package kg.easyit.onlineshop.service.impl;
 
 import kg.easyit.onlineshop.exceptions.UserNotFoundException;
-import kg.easyit.onlineshop.mapper.UserMapper;
+import kg.easyit.onlineshop.mapper.*;
 import kg.easyit.onlineshop.model.dto.AccountDto;
 import kg.easyit.onlineshop.model.dto.BasketDto;
+import kg.easyit.onlineshop.model.dto.RoleDto;
 import kg.easyit.onlineshop.model.dto.UserDto;
 import kg.easyit.onlineshop.model.entity.Account;
 import kg.easyit.onlineshop.model.entity.Basket;
+import kg.easyit.onlineshop.model.entity.Role;
 import kg.easyit.onlineshop.model.entity.User;
 import kg.easyit.onlineshop.model.request.CreateUserRequest;
+import kg.easyit.onlineshop.repository.RoleRepository;
 import kg.easyit.onlineshop.repository.UserRepository;
+import kg.easyit.onlineshop.service.AccountService;
+import kg.easyit.onlineshop.service.BasketService;
+import kg.easyit.onlineshop.service.RoleService;
 import kg.easyit.onlineshop.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Lazy;
@@ -26,6 +32,9 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final RoleService roleService;
+    private final AccountService accountService;
+    private final BasketService basketService;
 
     @Override
     public UserDto create(CreateUserRequest request) {
@@ -38,17 +47,20 @@ public class UserServiceImpl implements UserService {
         if (userRepository.existsByUsername(request.getUsername())) {
             throw new RuntimeException("Username: " + request.getUsername() + " already in use");
         }
+
+        RoleDto roleDto = roleService.findById(request.getRoleId());
+
         User user = User
                 .builder()
                 .firstName(request.getFirstName())
                 .lastName(request.getLastName())
                 .username(request.getUsername())
                 .email(request.getEmail())
+                .role(RoleMapper.INSTANCE.toEntity(roleDto))
+                .isActive(true)
                 .phoneNumber(request.getPhoneNumber())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .build();
-
-        UserDto userDto = UserMapper.INSTANCE.toDto(user);
 
                 Account account = Account
                         .builder()
@@ -58,14 +70,19 @@ public class UserServiceImpl implements UserService {
                         .user(user)
                         .build();
 
+                accountService.save(account);
 
                 Basket basket = Basket
                         .builder()
+                        .totalSum(BigDecimal.ZERO)
                         .user(user)
                         .build();
 
+                basketService.save(basket);
+
         userRepository.save(user);
 
+        UserDto userDto = UserMapper.INSTANCE.toDto(user);
         return userDto;
     }
 

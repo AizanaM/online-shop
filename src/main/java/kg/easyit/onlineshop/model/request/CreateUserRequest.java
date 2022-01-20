@@ -17,7 +17,6 @@ public class CreateUserRequest {
     String username;
     String email;
     String phoneNumber;
-    Account account;
-    Basket basket;
     String password;
+    Long roleId;
 }

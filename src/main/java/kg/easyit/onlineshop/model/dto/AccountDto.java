@@ -17,4 +17,5 @@ public class AccountDto {
     BigDecimal availableMoney;
     UserDto userDto;
     List<TransactionDto> transactions;
+    Boolean isActive;
 }

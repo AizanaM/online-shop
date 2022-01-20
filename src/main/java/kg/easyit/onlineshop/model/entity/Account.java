@@ -23,13 +23,13 @@ public class Account extends AbstractPersistable<Long> {
     @Column(name = "available_money", nullable = false)
     BigDecimal availableMoney;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     User user;
 
     @OneToMany(fetch = FetchType.EAGER)
     List<Transaction> transactions;
 
-    @Column(name = "is_Active", nullable = false, columnDefinition = "Boolean default true")
+    @Column(name = "is_active", nullable = false)
     Boolean isActive;
 }

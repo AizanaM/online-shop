@@ -27,7 +27,7 @@ public class BasketServiceImpl implements BasketService {
     private final OrderService orderService;
 
     @Autowired
-    public BasketServiceImpl(BasketRepository basketRepository, UserService userService,@Lazy OrderService orderService) {
+    public BasketServiceImpl(BasketRepository basketRepository,@Lazy UserService userService,@Lazy OrderService orderService) {
         this.basketRepository = basketRepository;
         this.userService = userService;
         this.orderService = orderService;
@@ -61,6 +61,11 @@ public class BasketServiceImpl implements BasketService {
     public List<BasketDto> findByUser(Long userId) {
         List<Basket> baskets = basketRepository.findBasketsByUserId(userId);
         return BasketMapper.INSTANCE.toDtoList(baskets);
+    }
+
+    @Override
+    public void save(Basket basket) {
+        basketRepository.save(basket);
     }
 
 //    @Override

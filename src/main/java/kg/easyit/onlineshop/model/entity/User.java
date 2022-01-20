@@ -50,7 +50,7 @@ public class User extends AbstractPersistable<Long> implements UserDetails {
     @Column(name = "is_active", nullable = false)
     Boolean isActive;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "role_id", referencedColumnName = "id")
     Role role;
 

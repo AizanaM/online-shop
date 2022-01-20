@@ -17,7 +17,7 @@ import java.util.List;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Role extends AbstractPersistable<Long> {
 
-    @Column(name = "role_name", nullable = false, unique = true)
+    @Column(name = "role_name", nullable = false)
     String roleName;
 
     @ElementCollection(fetch = FetchType.EAGER)
@@ -25,4 +25,6 @@ public class Role extends AbstractPersistable<Long> {
     @Column(name = "authorities_id", nullable = false)
     List<Authority> authorities;
 
+    @OneToMany(mappedBy = "role")
+    List<User> users;
 }

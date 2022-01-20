@@ -1,5 +1,6 @@
 package kg.easyit.onlineshop.model.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import kg.easyit.onlineshop.model.entity.Account;
 import kg.easyit.onlineshop.model.entity.Basket;
 import kg.easyit.onlineshop.model.entity.Role;
@@ -22,6 +23,7 @@ public class UserDto {
     String phoneNumber;
     List<AccountDto> account;
     List<BasketDto> baskets;
+    @JsonIgnore
     String password;
     Boolean isActive;
     RoleDto roleDto;

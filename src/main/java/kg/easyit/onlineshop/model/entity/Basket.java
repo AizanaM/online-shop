@@ -31,7 +31,7 @@ public class Basket extends AbstractPersistable<Long> {
 //    @Column(name = "is_active", nullable = false)
 //    Boolean isActive;
 
-    @ManyToOne
+    @ManyToOne()
     @JoinColumn(name = "user_id", nullable = false, referencedColumnName = "id")
     User user;
 

@@ -6,10 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -18,8 +15,8 @@ public class TransactionController {
     private final TransactionService transactionService;
 
     @PreAuthorize("hasAuthority('TRANSACTION_CREATE')")
-    @GetMapping("/create")
-    public ResponseEntity<?> findByAccountToId(@RequestBody TransactionDetails details) {
+    @PostMapping("/create")
+    public ResponseEntity<?> create(@RequestBody TransactionDetails details) {
         try {
             return ResponseEntity.ok(transactionService.create(details));
         } catch (Exception ex) {
@@ -28,8 +25,8 @@ public class TransactionController {
     }
 
     @PreAuthorize("hasAuthority('TRANSACTION_READ')")
-    @GetMapping("/find-transactions-to")
-    public ResponseEntity<?> findByAccountToId(Long id) {
+    @GetMapping("/find-transactions-to/{id}")
+    public ResponseEntity<?> findByAccountToId(@PathVariable Long id) {
         try {
             return ResponseEntity.ok(transactionService.findByAccountToId(id));
         } catch (Exception ex) {
@@ -38,7 +35,7 @@ public class TransactionController {
     }
 
     @PreAuthorize("hasAuthority('TRANSACTION_READ')")
-    @GetMapping("/find-transactions-from")
+    @GetMapping("/find-transactions-from/{id}")
     public ResponseEntity<?> findByAccountFrom(Long id) {
         try {
             return ResponseEntity.ok(transactionService.findByAccountFromId(id));
@@ -48,8 +45,8 @@ public class TransactionController {
     }
 
     @PreAuthorize("hasAuthority('TRANSACTION_READ')")
-    @GetMapping("/find-all")
-    public ResponseEntity<?> findAllTransactions(@RequestBody Long accountId) {
+    @GetMapping("/find-all/{id}")
+    public ResponseEntity<?> findAllTransactions(@PathVariable Long accountId) {
         try {
             return ResponseEntity.ok().body(transactionService.findAllTransaction(accountId));
         } catch (Exception ex) {
