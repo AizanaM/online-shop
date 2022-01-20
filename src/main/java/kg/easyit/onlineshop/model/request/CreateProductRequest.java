@@ -15,5 +15,5 @@ public class CreateProductRequest {
     String productName;
     BigDecimal price;
     Integer unitsInStock;
-
+    Boolean isActive;
 }

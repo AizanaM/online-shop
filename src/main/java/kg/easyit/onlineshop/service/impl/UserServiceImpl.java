@@ -69,7 +69,7 @@ public class UserServiceImpl implements UserService {
                         .isActive(true)
                         .user(user)
                         .build();
-
+        //Для Нурбека
                 accountService.save(account);
 
                 Basket basket = Basket
