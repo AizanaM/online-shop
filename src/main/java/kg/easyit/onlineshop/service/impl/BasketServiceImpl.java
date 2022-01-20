@@ -41,7 +41,6 @@ public class BasketServiceImpl implements BasketService {
         Basket basket = Basket
                 .builder()
                 .user(UserMapper.INSTANCE.toEntity(userDto))
-                .orders(OrderMapper.INSTANCE.toEntityList(orderService.createAll(request.getOrders())))
                 .totalSum(request.getTotalSum())
                 .build();
 

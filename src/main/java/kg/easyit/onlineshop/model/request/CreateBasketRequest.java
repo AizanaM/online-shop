@@ -21,10 +21,6 @@ public class CreateBasketRequest {
 
     @NotNull
     @Positive
-    List<CreateOrderRequest> orders;
-
-    @NotNull
-    @Positive
     BigDecimal totalSum;
 
 }

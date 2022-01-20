@@ -15,6 +15,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(callSuper = true)
 @Table(name = "tb_product")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Product extends AbstractPersistable<Long> {
@@ -26,10 +27,6 @@ public class Product extends AbstractPersistable<Long> {
 
     @Column(name = "units_in_stock", nullable = false)
     Integer unitsInStock;
-
-    @UpdateTimestamp
-    @Column(name = "date_updated", nullable = false)
-    LocalDate dateUpdated;
 
     @Column(name = "is_active", nullable = false)
     Boolean isActive;

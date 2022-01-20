@@ -24,6 +24,7 @@ public class ProductServiceImpl implements ProductService {
                 .builder()
                 .productName(request.getProductName())
                 .price(request.getPrice())
+                .isActive(true)
                 .unitsInStock(request.getUnitsInStock())
                 .build();
         ProductDto productDto = ProductMapper.INSTANCE.toDto(product);

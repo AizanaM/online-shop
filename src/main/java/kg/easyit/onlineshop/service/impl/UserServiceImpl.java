@@ -56,11 +56,14 @@ public class UserServiceImpl implements UserService {
                 .lastName(request.getLastName())
                 .username(request.getUsername())
                 .email(request.getEmail())
-                .role(RoleMapper.INSTANCE.toEntity(roleDto))
                 .isActive(true)
                 .phoneNumber(request.getPhoneNumber())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .build();
+
+                userRepository.save(user);
+
+                user.setRole(RoleMapper.INSTANCE.toEntity(roleDto));
 
                 Account account = Account
                         .builder()
@@ -69,7 +72,7 @@ public class UserServiceImpl implements UserService {
                         .isActive(true)
                         .user(user)
                         .build();
-        //Для Нурбека
+
                 accountService.save(account);
 
                 Basket basket = Basket
@@ -79,8 +82,6 @@ public class UserServiceImpl implements UserService {
                         .build();
 
                 basketService.save(basket);
-
-        userRepository.save(user);
 
         UserDto userDto = UserMapper.INSTANCE.toDto(user);
         return userDto;
@@ -93,7 +94,12 @@ public class UserServiceImpl implements UserService {
             return userRepository.save(user);
         }).orElseThrow(() -> new UserNotFoundException("User not found or already deleted")));
     }
-  
+
+    @Override
+    public void save(User user) {
+        userRepository.save(user);
+    }
+
     @Override
     public UserDto findByBasket(Basket basket) {
         return null;

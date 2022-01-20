@@ -13,6 +13,7 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@EqualsAndHashCode(callSuper = true)
 @Table(name = "tb_role")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Role extends AbstractPersistable<Long> {
@@ -24,7 +25,4 @@ public class Role extends AbstractPersistable<Long> {
     @CollectionTable(name = "role_has_authorities", joinColumns = @JoinColumn(name = "role_id"))
     @Column(name = "authorities_id", nullable = false)
     List<Authority> authorities;
-
-    @OneToMany(mappedBy = "role")
-    List<User> users;
 }
