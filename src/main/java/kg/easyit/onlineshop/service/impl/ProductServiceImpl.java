@@ -1,5 +1,6 @@
 package kg.easyit.onlineshop.service.impl;
 
+import kg.easyit.onlineshop.exceptions.ProductNotFoundException;
 import kg.easyit.onlineshop.mapper.ProductMapper;
 import kg.easyit.onlineshop.model.dto.ProductDto;
 import kg.easyit.onlineshop.model.entity.Product;
@@ -38,9 +39,15 @@ public class ProductServiceImpl implements ProductService {
         return ProductMapper.INSTANCE
                 .toDto(productRepository
                 .findByIdAndIsActiveTrue(id)
-                        .orElseThrow(() -> new RuntimeException("Product not found")));
+                        .orElseThrow(() -> new ProductNotFoundException("Product not found")));
 
     }
+
+    @Override
+    public Product getById(Long id) {
+        return productRepository.getById(id);
+    }
+
     @Override
     public ProductDto update(ProductDto productDto) {
         Product product = productRepository.findByIdAndIsActiveTrue(productDto.getId())

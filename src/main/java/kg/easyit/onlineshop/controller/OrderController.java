@@ -28,8 +28,7 @@ public class OrderController {
             log.info("Creating order.");
             return ResponseEntity.status(HttpStatus.CREATED).body(orderService.create(request));
         } catch (RuntimeException ex) {
-            log.error("Order creation failed. Quantity of product units=" + request.getQuantityOfProducts() +
-                    " for this order is unavailable."); // ???
+            log.error(ex.getMessage());
             ex.printStackTrace();
             return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
         }

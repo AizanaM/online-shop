@@ -5,12 +5,19 @@ import kg.easyit.onlineshop.mapper.BasketMapper;
 import kg.easyit.onlineshop.mapper.OrderMapper;
 import kg.easyit.onlineshop.mapper.UserMapper;
 import kg.easyit.onlineshop.model.dto.BasketDto;
+import kg.easyit.onlineshop.model.dto.OrderDto;
 import kg.easyit.onlineshop.model.dto.UserDto;
 import kg.easyit.onlineshop.model.entity.Basket;
+import kg.easyit.onlineshop.model.entity.Order;
+import kg.easyit.onlineshop.model.entity.Product;
+import kg.easyit.onlineshop.model.entity.User;
+import kg.easyit.onlineshop.model.enums.OrderStatus;
 import kg.easyit.onlineshop.model.request.CreateBasketRequest;
+import kg.easyit.onlineshop.model.request.CreateOrderRequest;
 import kg.easyit.onlineshop.repository.BasketRepository;
 import kg.easyit.onlineshop.service.BasketService;
 import kg.easyit.onlineshop.service.OrderService;
+import kg.easyit.onlineshop.service.ProductService;
 import kg.easyit.onlineshop.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,28 +30,39 @@ import java.util.List;
 public class BasketServiceImpl implements BasketService {
 
     private final BasketRepository basketRepository;
-    private final UserService userService;
     private final OrderService orderService;
+    private final UserService userService;
+    private final ProductService productService;
 
     @Autowired
-    public BasketServiceImpl(BasketRepository basketRepository,@Lazy UserService userService,@Lazy OrderService orderService) {
+    public BasketServiceImpl(BasketRepository basketRepository,
+                             OrderService orderService,
+                             ProductService productService,
+                             UserService userService) {
         this.basketRepository = basketRepository;
-        this.userService = userService;
         this.orderService = orderService;
+        this.userService = userService;
+        this.productService = productService;
     }
 
     @Override
     public BasketDto create(CreateBasketRequest request) {
+        userService.setBasket(request);
+        return BasketDto.builder().build();
+    }
 
-        UserDto userDto = userService.findById(request.getUserId());
-
-        Basket basket = Basket
-                .builder()
-                .user(UserMapper.INSTANCE.toEntity(userDto))
-                .totalSum(request.getTotalSum())
+    @Override
+    public void setOrder(CreateOrderRequest request) {
+        Order order = Order.builder()
+                .orderStatus(OrderStatus.ACTIVE)
+                .quantityOfProducts(request.getQuantityOfProducts())
+                .total(request.getTotal())
                 .build();
-
-        return BasketMapper.INSTANCE.toDto(basketRepository.save(basket));
+        Basket basket = basketRepository.getById(request.getBasketId());
+        Product product = productService.getById(request.getProductId());
+        order.setBasket(basket);
+        order.setProduct(product);
+        orderService.save(order);
     }
 
     @Override

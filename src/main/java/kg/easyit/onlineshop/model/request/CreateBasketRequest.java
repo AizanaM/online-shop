@@ -14,13 +14,10 @@ import java.util.List;
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class CreateBasketRequest {
-
     @NotNull
     @Positive
     Long userId;
-
     @NotNull
     @Positive
     BigDecimal totalSum;
-
 }

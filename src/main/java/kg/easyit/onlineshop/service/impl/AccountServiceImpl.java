@@ -2,16 +2,14 @@ package kg.easyit.onlineshop.service.impl;
 
 import kg.easyit.onlineshop.exceptions.AccountNotFoundException;
 import kg.easyit.onlineshop.mapper.AccountMapper;
-import kg.easyit.onlineshop.mapper.UserMapper;
 import kg.easyit.onlineshop.model.dto.AccountDto;
-import kg.easyit.onlineshop.model.dto.UserDto;
 import kg.easyit.onlineshop.model.entity.Account;
 import kg.easyit.onlineshop.model.request.CreateAccountRequest;
 import kg.easyit.onlineshop.model.request.UpdateAccountRequest;
+import kg.easyit.onlineshop.model.response.MessageResponse;
 import kg.easyit.onlineshop.repository.AccountRepository;
 import kg.easyit.onlineshop.service.AccountService;
 import kg.easyit.onlineshop.service.UserService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Lazy;
@@ -33,21 +31,12 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Value("${account.details}")
-    private Long shopAccountId;
-
+    public static Long shopAccountId;
 
     @Override
-    public AccountDto create(CreateAccountRequest createAccountRequest) {
-        Account account = Account.builder()
-                .accountName(createAccountRequest.getAccountName())
-                .isActive(true)
-                .availableMoney(createAccountRequest.getAvailableMoney())
-                .user(UserMapper.INSTANCE.toEntity(userService.findById(createAccountRequest.getUserId())))
-                .build();
-
-        accountRepository.save(account);
-
-        return AccountMapper.INSTANSE.toDto(account);
+    public MessageResponse create(CreateAccountRequest createAccountRequest) {
+        userService.setAccount(createAccountRequest);
+        return new MessageResponse("account created");
     }
 
     @Override
@@ -87,10 +76,10 @@ public class AccountServiceImpl implements AccountService {
             throw new TaskRejectedException("money < 0");
         }
 
-        return accountRepository.findById(shopAccountId).map(account -> {
+        return accountRepository.findById(1L).map(account -> {
             account.setAvailableMoney(account.getAvailableMoney().add(money));
             return AccountMapper.INSTANSE.toDto(accountRepository.save(account));
-        }).orElseThrow(()-> new AccountNotFoundException("not found"));
+        }).orElseThrow(()-> new AccountNotFoundException(""));
     }
 
     @Override
@@ -103,6 +92,6 @@ public class AccountServiceImpl implements AccountService {
         return accountRepository.findById(id).map(account -> {
             account.setAvailableMoney(account.getAvailableMoney().subtract(money));
             return AccountMapper.INSTANSE.toDto(accountRepository.save(account));
-        }).orElseThrow(()-> new AccountNotFoundException("not found"));
+        }).orElseThrow(()-> new AccountNotFoundException("Cannot subtract unexistable account"));
     }
 }

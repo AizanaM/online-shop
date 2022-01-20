@@ -27,5 +27,4 @@ public class UserDto {
     String password;
     Boolean isActive;
     RoleDto roleDto;
-
 }

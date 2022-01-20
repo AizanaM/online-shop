@@ -11,7 +11,6 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class UpdateAccountRequest {
-
     Long id;
     String accountName;
     BigDecimal availableMoney;

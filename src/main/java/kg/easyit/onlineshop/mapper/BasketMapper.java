@@ -7,7 +7,5 @@ import org.mapstruct.factory.Mappers;
 
 @Mapper
 public interface BasketMapper extends BaseMapper<Basket, BasketDto> {
-
     BasketMapper INSTANCE = Mappers.getMapper(BasketMapper.class);
-
 }

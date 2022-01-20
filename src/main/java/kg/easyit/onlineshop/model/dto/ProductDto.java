@@ -18,5 +18,4 @@ public class ProductDto {
     Integer unitsInStock;
     LocalDate dateUpdated;
     Boolean isActive;
-
 }

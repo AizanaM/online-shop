@@ -15,6 +15,7 @@ import kg.easyit.onlineshop.service.BasketService;
 import kg.easyit.onlineshop.service.OrderService;
 import kg.easyit.onlineshop.service.ProductService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
@@ -23,39 +24,28 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-@RequiredArgsConstructor
 public class OrderServiceImpl implements OrderService {
 
     private final OrderRepository orderRepository;
     private final BasketService basketService;
-    private final ProductService productService;
+
+    @Autowired
+    public OrderServiceImpl(OrderRepository orderRepository,
+                            @Lazy BasketService basketService) {
+        this.orderRepository = orderRepository;
+        this.basketService = basketService;
+    }
 
     @Override
-    public void save(OrderDto orderDto) {
-        orderRepository.save(OrderMapper.INSTANCE.toEntity(orderDto));
+    public void save(Order order) {
+        orderRepository.save(order);
     }
 
     @Override
     public OrderDto create(CreateOrderRequest request) {
-
-        BasketDto basketDto = basketService.find(request.getBasketId()); // ?
-        ProductDto productDto = productService.findById(request.getProductId());
-
-        if (request.getQuantityOfProducts() > productDto.getUnitsInStock()) {
-            throw new RuntimeException("There are not enough " + productDto.getProductName() + "(s) in stock. " +
-                    "Number of units available: " + productDto.getUnitsInStock());
-        }
-
-        Order order = Order
-                .builder()
-                .basket(BasketMapper.INSTANCE.toEntity(basketDto))
-                .product(ProductMapper.INSTANCE.toEntity(productDto))
-                .orderStatus(OrderStatus.ACTIVE)
-                .quantityOfProducts(request.getQuantityOfProducts())
-                .total(request.getTotal()) // (productDto.getPrice().multiply(new BigDecimal(request.getQuantityOfProducts())).round(new MathContext(2, RoundingMode.HALF_UP)))
+        basketService.setOrder(request);
+        return OrderDto.builder()
                 .build();
-
-        return OrderMapper.INSTANCE.toDto(orderRepository.save(order));
     }
 
     @Override

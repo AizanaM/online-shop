@@ -3,6 +3,7 @@ package kg.easyit.onlineshop.controller;
 import kg.easyit.onlineshop.model.request.TransactionDetails;
 import kg.easyit.onlineshop.service.TransactionService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -11,15 +12,19 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/transaction")
+@Slf4j
 public class TransactionController {
     private final TransactionService transactionService;
 
     @PreAuthorize("hasAuthority('TRANSACTION_CREATE')")
     @PostMapping("/create")
     public ResponseEntity<?> create(@RequestBody TransactionDetails details) {
+        log.info("making transaction");
         try {
             return ResponseEntity.ok(transactionService.create(details));
         } catch (Exception ex) {
+            log.error(ex.getMessage());
+            ex.printStackTrace();
             return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
         }
     }

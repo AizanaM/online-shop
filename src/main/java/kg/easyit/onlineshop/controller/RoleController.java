@@ -17,7 +17,6 @@ public class RoleController {
 
     private final RoleService roleService;
 
-
     @PreAuthorize("hasAuthority('PERMISSIONS_READ')")
     @GetMapping("/get-all-authorities")
     public ResponseEntity<?> getAllAuthorities() {

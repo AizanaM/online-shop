@@ -7,6 +7,7 @@ import kg.easyit.onlineshop.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -16,6 +17,7 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
+    @PreAuthorize("hasAuthority('PRODUCT_CREATE')")
     @PostMapping("/create")
     public ResponseEntity<?> create(@RequestBody CreateProductRequest request) {
         try {
@@ -28,6 +30,7 @@ public class ProductController {
         }
     }
 
+    @PreAuthorize("hasAuthority('PRODUCT_READ')")
     @GetMapping("/find/{id}")
     public ResponseEntity<?> findById(@PathVariable Long id) {
         try {
@@ -38,6 +41,7 @@ public class ProductController {
         }
     }
 
+    @PreAuthorize("hasAuthority('PRODUCT')")
     @PutMapping("/update")
     public ResponseEntity<?> update(@RequestBody ProductDto productDto) {
         try {

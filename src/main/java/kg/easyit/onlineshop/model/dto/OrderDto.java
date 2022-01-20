@@ -13,7 +13,6 @@ import java.util.Date;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class OrderDto {
-
     Long id;
     Date dateCreated;
     Date dateUpdated;
@@ -22,5 +21,4 @@ public class OrderDto {
     Integer quantityOfProducts;
     BigDecimal total;
     OrderStatus orderStatus;
-
 }

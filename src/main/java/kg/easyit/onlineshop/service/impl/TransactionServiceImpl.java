@@ -10,12 +10,14 @@ import kg.easyit.onlineshop.repository.TransactionRepository;
 import kg.easyit.onlineshop.service.AccountService;
 import kg.easyit.onlineshop.service.TransactionService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class TransactionServiceImpl implements TransactionService {
 
@@ -31,8 +33,9 @@ public class TransactionServiceImpl implements TransactionService {
     public TransactionDto create(TransactionDetails transactionDetails) {
 
         AccountDto accountTo = accountService.addMoney(transactionDetails.getAmount());
+        log.info(String.valueOf(accountTo.getId()));
         AccountDto accountFrom = accountService.subtractMoney(transactionDetails.getAccountFromId(), transactionDetails.getAmount());
-
+        log.info(String.valueOf(accountFrom.getId()));
         if (accountFrom.getAvailableMoney().doubleValue() < transactionDetails.getAmount().doubleValue()) {
             throw new RuntimeException("Transaction not acceptable");
         }

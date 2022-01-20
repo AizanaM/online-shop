@@ -43,17 +43,16 @@ public class User extends AbstractPersistable<Long> implements UserDetails {
     @Column(name = "phone_number", nullable = false)
     String phoneNumber;
 
-    @OneToMany(mappedBy = "user", orphanRemoval = true)
-    Set<Basket> basket;
+    @OneToMany(mappedBy = "user")
+    Set<Basket> baskets;
 
-    @OneToMany(mappedBy = "user", orphanRemoval = true)
+    @OneToMany(mappedBy = "user")
     Set<Account> accounts;
 
     @Column(name = "is_active", nullable = false)
     Boolean isActive;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
+    @ManyToOne
     @JoinColumn(name = "role_id", referencedColumnName = "id")
     Role role;
 

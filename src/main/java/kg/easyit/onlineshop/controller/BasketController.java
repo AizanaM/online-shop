@@ -24,7 +24,7 @@ public class BasketController {
             log.info("Creating basket.");
             return ResponseEntity.status(HttpStatus.CREATED).body(basketService.create(request));
         } catch (RuntimeException ex) {
-            log.error("Basket creation failed. ?");
+            log.error("Basket creation failed");
             ex.printStackTrace();
             return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
         }

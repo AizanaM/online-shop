@@ -25,7 +25,6 @@ import java.util.Date;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Order extends AbstractPersistable<Long> {
     @ManyToOne
-    @Cascade(org.hibernate.annotations.CascadeType.ALL)
     @JoinColumn(name = "basket_id", referencedColumnName = "id")
     Basket basket;
 
@@ -36,7 +35,6 @@ public class Order extends AbstractPersistable<Long> {
     Date dateUpdated;
 
     @ManyToOne
-    @Cascade(org.hibernate.annotations.CascadeType.ALL)
     @JoinColumn(name = "product_id", referencedColumnName = "id")
     Product product;
 

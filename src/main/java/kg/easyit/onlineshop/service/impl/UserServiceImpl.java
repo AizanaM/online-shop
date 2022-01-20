@@ -1,5 +1,6 @@
 package kg.easyit.onlineshop.service.impl;
 
+import kg.easyit.onlineshop.exceptions.AccountNotFoundException;
 import kg.easyit.onlineshop.exceptions.UserNotFoundException;
 import kg.easyit.onlineshop.mapper.*;
 import kg.easyit.onlineshop.model.dto.AccountDto;
@@ -10,6 +11,8 @@ import kg.easyit.onlineshop.model.entity.Account;
 import kg.easyit.onlineshop.model.entity.Basket;
 import kg.easyit.onlineshop.model.entity.Role;
 import kg.easyit.onlineshop.model.entity.User;
+import kg.easyit.onlineshop.model.request.CreateAccountRequest;
+import kg.easyit.onlineshop.model.request.CreateBasketRequest;
 import kg.easyit.onlineshop.model.request.CreateUserRequest;
 import kg.easyit.onlineshop.repository.RoleRepository;
 import kg.easyit.onlineshop.repository.UserRepository;
@@ -18,6 +21,7 @@ import kg.easyit.onlineshop.service.BasketService;
 import kg.easyit.onlineshop.service.RoleService;
 import kg.easyit.onlineshop.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -27,7 +31,6 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 
 @Service
-@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
@@ -35,6 +38,19 @@ public class UserServiceImpl implements UserService {
     private final RoleService roleService;
     private final AccountService accountService;
     private final BasketService basketService;
+
+    @Autowired
+    public UserServiceImpl(UserRepository userRepository,
+                           PasswordEncoder passwordEncoder,
+                           RoleService roleService,
+                           AccountService accountService,
+                           @Lazy BasketService basketService) {
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.roleService = roleService;
+        this.accountService = accountService;
+        this.basketService = basketService;
+    }
 
     @Override
     public UserDto create(CreateUserRequest request) {
@@ -93,6 +109,30 @@ public class UserServiceImpl implements UserService {
             user.setIsActive(false);
             return userRepository.save(user);
         }).orElseThrow(() -> new UserNotFoundException("User not found or already deleted")));
+    }
+
+    @Override
+    public void setAccount(CreateAccountRequest request) {
+        Account account = Account.builder()
+                .isActive(true)
+                .accountName(request.getAccountName())
+                .availableMoney(BigDecimal.ZERO)
+                .build();
+        User user = userRepository.findByIdAndIsActiveTrue(request.getUserId())
+                .orElseThrow(() -> new AccountNotFoundException(""));
+        account.setUser(user);
+        accountService.save(account);
+    }
+
+    @Override
+    public void setBasket(CreateBasketRequest request) {
+        Basket basket = Basket.builder()
+                .totalSum(request.getTotalSum())
+                .build();
+        User user = userRepository.findByIdAndIsActiveTrue(request.getUserId())
+                .orElseThrow(() -> new AccountNotFoundException(""));
+        basket.setUser(user);
+        basketService.save(basket);
     }
 
     @Override

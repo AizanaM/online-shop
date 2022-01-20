@@ -13,21 +13,16 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class CreateOrderRequest {
-
     @NotNull
     @Positive
     Long basketId; // ?
-
     @NotNull
     @Positive
     Long productId;
-
     @NotNull
     @Positive
     Integer quantityOfProducts;
-
     @NotNull
     @Positive
     BigDecimal total;
-
 }

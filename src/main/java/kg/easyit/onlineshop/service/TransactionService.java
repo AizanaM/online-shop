@@ -9,13 +9,8 @@ import java.util.List;
 @Service
 public interface TransactionService {
     TransactionDto findById(Long id);
-
     TransactionDto create(TransactionDetails createTransactionRequest);
-
     List<TransactionDto> findByAccountFromId(Long accountId);
-
     List<TransactionDto> findByAccountToId(Long accountId);
-
     List<TransactionDto> findAllTransaction(Long accountId);
-
 }
