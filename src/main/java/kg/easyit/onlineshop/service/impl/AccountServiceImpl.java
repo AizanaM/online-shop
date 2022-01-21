@@ -72,7 +72,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public AccountDto addMoney(BigDecimal money) {
-        if (money.compareTo(BigDecimal.ZERO)<0){
+        if (money.doubleValue() <= 0){
             throw new TaskRejectedException("money < 0");
         }
 
@@ -85,7 +85,7 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public AccountDto subtractMoney(Long id, BigDecimal money) {
 
-        if (money.compareTo(BigDecimal.ZERO)<0){
+        if (money.doubleValue() <= 0){
             throw new TaskRejectedException("money < 0");
         }
 

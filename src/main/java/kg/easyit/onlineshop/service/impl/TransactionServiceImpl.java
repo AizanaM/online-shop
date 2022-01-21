@@ -31,14 +31,15 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public TransactionDto create(TransactionDetails transactionDetails) {
+        if (accountService.findById(transactionDetails.getAccountFromId())
+                .getAvailableMoney().doubleValue() < transactionDetails.getAmount().doubleValue()) {
+            throw new RuntimeException("Transaction not acceptable");
+        }
 
         AccountDto accountTo = accountService.addMoney(transactionDetails.getAmount());
         log.info(String.valueOf(accountTo.getId()));
         AccountDto accountFrom = accountService.subtractMoney(transactionDetails.getAccountFromId(), transactionDetails.getAmount());
         log.info(String.valueOf(accountFrom.getId()));
-        if (accountFrom.getAvailableMoney().doubleValue() < transactionDetails.getAmount().doubleValue()) {
-            throw new RuntimeException("Transaction not acceptable");
-        }
 
         Transaction transaction = Transaction.builder()
                 .amount(transactionDetails.getAmount())
