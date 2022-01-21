@@ -84,14 +84,16 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public AccountDto subtractMoney(Long id, BigDecimal money) {
+        Account account = accountRepository.getById(id);
 
-        if (money.doubleValue() <= 0){
-            throw new TaskRejectedException("money < 0");
+        if (account.getAvailableMoney().doubleValue() <= money.doubleValue()){
+            throw new TaskRejectedException("you sending more than you have");
+        }
+        if (money.compareTo(BigDecimal.ZERO) < 0) {
+            throw new TaskRejectedException("money is less than 0");
         }
 
-        return accountRepository.findById(id).map(account -> {
-            account.setAvailableMoney(account.getAvailableMoney().subtract(money));
-            return AccountMapper.INSTANSE.toDto(accountRepository.save(account));
-        }).orElseThrow(()-> new AccountNotFoundException("Cannot subtract unexistable account"));
+        account.setAvailableMoney(account.getAvailableMoney().subtract(money));
+        return AccountMapper.INSTANSE.toDto(account);
     }
 }
