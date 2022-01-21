@@ -53,6 +53,9 @@ public class BasketServiceImpl implements BasketService {
 
     @Override
     public void setOrder(CreateOrderRequest request) {
+        if (request.getQuantityOfProducts() < productService.findById(request.getProductId()).getUnitsInStock()) {
+            throw new IllegalStateException("Quantity is less than units");
+        }
         Order order = Order.builder()
                 .orderStatus(OrderStatus.ACTIVE)
                 .quantityOfProducts(request.getQuantityOfProducts())
