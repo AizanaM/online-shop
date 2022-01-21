@@ -29,6 +29,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -73,31 +74,35 @@ public class UserServiceImpl implements UserService {
                 .username(request.getUsername())
                 .email(request.getEmail())
                 .isActive(true)
+                .baskets(new ArrayList<>())
+                .accounts(new ArrayList<>())
                 .phoneNumber(request.getPhoneNumber())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .build();
 
-                userRepository.save(user);
 
-                user.setRole(RoleMapper.INSTANCE.toEntity(roleDto));
+        user.setRole(RoleMapper.INSTANCE.toEntity(roleDto));
 
-                Account account = Account
-                        .builder()
-                        .accountName("Default name")
-                        .availableMoney(BigDecimal.ZERO)
-                        .isActive(true)
-                        .user(user)
-                        .build();
+        Account account = Account
+                .builder()
+                .accountName("Default name")
+                .availableMoney(BigDecimal.ZERO)
+                .isActive(true)
+//                .user(user)
+                .build();
 
-                accountService.save(account);
+        Basket basket = Basket
+                .builder()
+                .totalSum(BigDecimal.ZERO)
+//                .user(user)
+                .build();
 
-                Basket basket = Basket
-                        .builder()
-                        .totalSum(BigDecimal.ZERO)
-                        .user(user)
-                        .build();
+        user.getBaskets().add(basket);
+        user.getAccounts().add(account);
 
-                basketService.save(basket);
+        basketService.save(basket);
+        accountService.save(account);
+        userRepository.save(user);
 
         UserDto userDto = UserMapper.INSTANCE.toDto(user);
         return userDto;
@@ -120,7 +125,7 @@ public class UserServiceImpl implements UserService {
                 .build();
         User user = userRepository.findByIdAndIsActiveTrue(request.getUserId())
                 .orElseThrow(() -> new AccountNotFoundException(""));
-        account.setUser(user);
+//        account.setUser(user);
         accountService.save(account);
     }
 
@@ -131,7 +136,7 @@ public class UserServiceImpl implements UserService {
                 .build();
         User user = userRepository.findByIdAndIsActiveTrue(request.getUserId())
                 .orElseThrow(() -> new AccountNotFoundException(""));
-        basket.setUser(user);
+//        basket.setUser(user);
         basketService.save(basket);
     }
 
@@ -154,17 +159,17 @@ public class UserServiceImpl implements UserService {
             user.setEmail(userDto.getEmail());
             user.setPhoneNumber(userDto.getPhoneNumber());
             return userRepository.save(user);
-        }).orElseThrow(()-> new RuntimeException("Not found"));
+        }).orElseThrow(() -> new RuntimeException("Not found"));
 
         return UserMapper.INSTANCE.toDto(userEntity);
     }
 
     @Override
     public UserDto findById(Long id) {
-        return UserMapper.INSTANCE
-                .toDto(userRepository
-                        .findByIdAndIsActiveTrue(id)
-                        .orElseThrow(() -> new UserNotFoundException("User with id" + id + "is not found")));
+        User user = userRepository
+                .findByIdAndIsActiveTrue(id)
+                .orElseThrow(() -> new UserNotFoundException("User with id" + id + "is not found"));
+        return UserMapper.INSTANCE.toDto(user);
     }
 
 

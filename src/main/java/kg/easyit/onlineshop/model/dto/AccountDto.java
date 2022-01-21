@@ -15,7 +15,7 @@ public class AccountDto {
     Long id;
     String accountName;
     BigDecimal availableMoney;
-    UserDto userDto;
+//    UserDto user;
     List<TransactionDto> transactions;
     Boolean isActive;
 }

@@ -23,9 +23,9 @@ import java.util.Set;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Basket extends AbstractPersistable<Long> {
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
-    User user;
+//    @ManyToOne(cascade = CascadeType.ALL)
+//    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
+//    User user;
 
     @CreationTimestamp
     Date dateCreated;
@@ -34,7 +34,7 @@ public class Basket extends AbstractPersistable<Long> {
     Date dateUpdated;
 
     @OneToMany(mappedBy = "basket", cascade = CascadeType.ALL, orphanRemoval = true)
-    Set<Order> orders;
+    List<Order> orders;
 
     @Column(name = "total_sum", nullable = false)
     BigDecimal totalSum;

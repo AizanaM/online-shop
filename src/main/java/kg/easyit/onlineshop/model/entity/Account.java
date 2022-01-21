@@ -28,9 +28,9 @@ public class Account {
     @Column(name = "available_money", nullable = false)
     BigDecimal availableMoney;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
-    User user;
+//    @ManyToOne
+//    @JoinColumn(name = "user_id", referencedColumnName = "id")
+//    User user;
 
     @OneToMany
     List<Transaction> transactions;

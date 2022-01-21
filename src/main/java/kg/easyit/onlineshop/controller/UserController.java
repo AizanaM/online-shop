@@ -32,8 +32,8 @@ public class UserController {
 
 
     @PreAuthorize("hasAuthority('USER_READ')")
-    @GetMapping("/get/{id}")
-    public ResponseEntity<?> getUser(@PathVariable Long id){
+    @GetMapping("/find/{id}")
+    public ResponseEntity<?> find(@PathVariable Long id){
         try{
             log.info("Reading user by id");
             return ResponseEntity.ok(userService.findById(id));

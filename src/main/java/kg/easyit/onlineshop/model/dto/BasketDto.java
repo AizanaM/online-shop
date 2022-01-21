@@ -14,9 +14,7 @@ import java.util.List;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class BasketDto {
     Long id;
-    Date dateCreated;
-    Date dateUpdated;
-    UserDto user;
+//    UserDto user;
     List<OrderDto> orders;
     BigDecimal totalSum;
 }

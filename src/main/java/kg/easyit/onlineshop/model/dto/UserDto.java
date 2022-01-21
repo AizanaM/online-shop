@@ -21,10 +21,10 @@ public class UserDto {
     String username;
     String email;
     String phoneNumber;
-    List<AccountDto> account;
+    List<AccountDto> accounts;
     List<BasketDto> baskets;
     @JsonIgnore
     String password;
     Boolean isActive;
-    RoleDto roleDto;
+    RoleDto role;
 }

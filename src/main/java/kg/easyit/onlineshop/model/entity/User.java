@@ -43,11 +43,13 @@ public class User extends AbstractPersistable<Long> implements UserDetails {
     @Column(name = "phone_number", nullable = false)
     String phoneNumber;
 
-    @OneToMany(mappedBy = "user")
-    Set<Basket> baskets;
+    @OneToMany
+    @JoinColumn(name = "basket_id", referencedColumnName = "id")
+    List<Basket> baskets;
 
-    @OneToMany(mappedBy = "user")
-    Set<Account> accounts;
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "account_id", referencedColumnName = "id")
+    List<Account> accounts;
 
     @Column(name = "is_active", nullable = false)
     Boolean isActive;
